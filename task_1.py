@@ -1,9 +1,9 @@
 with open('text.txt', 'w', encoding='utf-8') as file:
-    file.write("Это первая строка\n")
-    file.write("Здесь расположена вторая строка\n")
-    file.write("Третья\n")
-    file.write("Это четвертая, самая длинная строка, она содержит много символов\n")
-    file.write("Это последняя, пятая строка\n")
+    file.write("Привет. я Вика\n")
+    file.write("Мне 17 лет\n")
+    file.write("Я учусь в ТТИТ\n")
+    file.write("А еще я Мастер спорта России по художественной гимнастике\n")
+    file.write("Работаю тренером по гимнастике\n")
 
 with open('text.txt', 'r', encoding='utf-8') as file:
     lines = file.readlines()

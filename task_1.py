@@ -1,27 +1,49 @@
-with open('text.txt', 'w', encoding='utf-8') as file:
-    file.write("Привет. я Вика\n")
-    file.write("Мне 17 лет\n")
-    file.write("Я учусь в ТТИТ\n")
-    file.write("А еще я Мастер спорта России по художественной гимнастике\n")
-    file.write("Работаю тренером по гимнастике\n")
+import urllib.request
+import urllib.error
 
-with open('text.txt', 'r', encoding='utf-8') as file:
-    lines = file.readlines()
+urls = [
+    "https://github.com/",
+    "https://www.binance.com/en",
+    "https://tomtit.tomsk.ru/",
+    "https://jsonplaceholder.typicode.com/",
+    "https://moodle.tomtit-tomsk.ru/"
+]
 
-line_count = len(lines)
-print(f"Количество строк в файле: {line_count}")
+for url in urls:
+    try:
+        response = urllib.request.urlopen(url, timeout=10)
 
-word_count = 0
-for line in lines:
-    words = line.split()
-    word_count += len(words)
-print(f"Количество слов в файле: {word_count}")
+        status_code = response.getcode()
 
-longest_line = ""
-for line in lines:
-    line_without_newline = line.strip('\n')
-    if len(line_without_newline) > len(longest_line):
-        longest_line = line_without_newline
+        if status_code == 200:
+            status = "доступен"
+        elif status_code == 404:
+            status = "не найден"
+        elif status_code == 403:
+            status = "вход запрещен"
+        else:
+            status = "доступен"
 
-print(f"Самая длинная строка: {longest_line}")
-print(f"Длина самой длинной строки: {len(longest_line)} символов")
+        print(f"{url} – {status} – {status_code}")
+
+    except urllib.error.HTTPError as e:
+        status_code = e.code
+
+        if status_code == 404:
+            status = "не найден"
+        elif status_code == 403:
+            status = "вход запрещен"
+        elif 500 <= status_code < 600:
+            status = "не доступен"
+        else:
+            status = "не доступен"
+
+        print(f"{url} – {status} – {status_code}")
+
+    except urllib.error.URLError:
+        print(f"{url} – не доступен – ошибка подключения")
+
+    except Exception:
+        print(f"{url} – не доступен – неизвестная ошибка")
+
+input("\nНажмите Enter для выхода...")
